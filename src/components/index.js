@@ -16,3 +16,4 @@ export { default as EmptyState } from './EmptyState';
 export { default as CaficultorFormModal } from './CaficultorFormModal';
 export { default as ActionModal } from './ActionModal';
 export { default as Footer } from './Footer';
+export { default as MapaGIS } from './MapaGIS';
