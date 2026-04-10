@@ -148,6 +148,12 @@ const Dashboard = () => {
     }
   ];
 
+  // COMPONENTE 1: LOTES EN RIESGO (Alertas Inteligentes)
+  const lotesEnRiesgo = [
+    { id: 101, finca: 'El Refugio', lote: 'Lote A2', riesgo: 'alto', motivo: 'Brote de Roya > 15%', productor: 'Juan Pérez', ubicacion: 'Huila - Pitalito' },
+    { id: 102, finca: 'La Esperanza', lote: 'Lote B1', riesgo: 'alto', motivo: 'Incidencia de Broca', productor: 'María Gómez', ubicacion: 'Huila - San Agustín' },
+  ];
+
   // Funciones para manejar los modales
   const handleNuevaActividad = () => {
     setShowNuevaActividadModal(true);
@@ -347,6 +353,36 @@ const Dashboard = () => {
             </div>
           </Card>
         ))}
+      </div>
+
+      {/* COMPONENTE 1: ALERTAS INTELIGENTES (Lotes en riesgo) */}
+      <div className="bg-red-50 border border-red-200 rounded-xl overflow-hidden shadow-sm">
+        <div className="bg-red-500 text-white px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            <h3 className="font-bold">Atención Requerida: Lotes en Riesgo Fitosanitario</h3>
+          </div>
+          <span className="bg-white text-red-600 text-xs font-bold px-2 py-1 rounded-full">{lotesEnRiesgo.length} Alertas</span>
+        </div>
+        <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          {lotesEnRiesgo.map(lote => (
+            <div key={lote.id} className="bg-white p-4 rounded-lg border border-red-100 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+              <div>
+                <div className="flex items-center gap-2">
+                  <h4 className="font-bold text-gray-900">{lote.finca} - {lote.lote}</h4>
+                  <span className="px-2 py-0.5 bg-red-100 text-red-700 text-xs font-semibold rounded-full">{lote.motivo}</span>
+                </div>
+                <p className="text-sm text-gray-500 mt-1">Caficultor: {lote.productor} • {lote.ubicacion}</p>
+              </div>
+              <button 
+                onClick={() => setAlertModal({ isOpen: true, type: 'info', title: 'Agendar Visita', message: `Agendando visita de emergencia para ${lote.finca} de ${lote.productor}.` })}
+                className="text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-md transition-colors"
+              >
+                Agendar Visita
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Content Grid */}

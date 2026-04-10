@@ -7,138 +7,73 @@ export const ROLES = {
 
 // Opciones del menú lateral
 export const MENU_OPTIONS = [
+  // --- Opciones MENU EMPRESA / ASISTENTE TECNICO ---
   {
-    id: 'perfil_gr',
-    label: 'Perfil (Genérico)',
-    icon: 'user',
-    path: '/dashboard/perfil',
+    id: 'gestion',
+    label: 'Gestión',
+    icon: 'chart',
     roles: [ROLES.EMPRESA, ROLES.ASISTENTE_TECNICO],
+    subItems: [
+      { id: 'dashboard', label: 'Dashboard', path: '/dashboard' },
+      { id: 'estadisticas', label: 'Estadísticas', path: '/dashboard/estadisticas' },
+      { id: 'rentabilidad', label: 'Rentabilidad', path: '/dashboard/rentabilidad' },
+    ]
   },
   {
-    id: 'dashboard',
-    label: 'Dashboard',
-    icon: 'grid',
-    path: '/dashboard',
+    id: 'personas',
+    label: 'Personas',
+    icon: 'users',
     roles: [ROLES.EMPRESA, ROLES.ASISTENTE_TECNICO],
+    subItems: [
+      { id: 'caficultores', label: 'Caficultores', path: '/dashboard/caficultores' },
+      { id: 'grupo_caficultores', label: 'Grupos', path: '/dashboard/grupos' },
+      { id: 'extensionistas', label: 'Extensionistas', path: '/dashboard/extensionistas' },
+    ]
   },
   {
-    id: 'zonas',
-    label: 'Zonas',
+    id: 'territorio',
+    label: 'Territorio',
     icon: 'map',
-    path: '/dashboard/zonas',
     roles: [ROLES.EMPRESA, ROLES.ASISTENTE_TECNICO],
+    subItems: [
+      { id: 'fincas', label: 'Fincas (GIS)', path: '/dashboard/fincas' },
+      { id: 'zonas', label: 'Zonas', path: '/dashboard/zonas' },
+    ]
   },
   {
-    id: 'extensionistas',
-    label: 'Extensionistas / Agrónomos',
-    icon: 'users',
-    path: '/dashboard/extensionistas',
+    id: 'operaciones',
+    label: 'Operaciones',
+    icon: 'briefcase',
     roles: [ROLES.EMPRESA, ROLES.ASISTENTE_TECNICO],
+    subItems: [
+      { id: 'calendario', label: 'Calendario', path: '/dashboard/calendario' },
+      { id: 'pronostico', label: 'Pronóstico Cosecha', path: '/dashboard/pronostico' },
+      { id: 'volumen', label: 'Volumen Cosechado', path: '/dashboard/volumen' },
+    ]
   },
   {
-    id: 'caficultores',
-    label: 'Caficultores',
-    icon: 'users',
-    path: '/dashboard/caficultores',
-    roles: [ROLES.EMPRESA, ROLES.ASISTENTE_TECNICO],
-  },
-  {
-    id: 'grupo_caficultores',
-    label: 'Grupo de caficultores',
-    icon: 'users',
-    path: '/dashboard/grupos',
-    roles: [ROLES.EMPRESA, ROLES.ASISTENTE_TECNICO],
-  },
-  {
-    id: 'calendario',
-    label: 'Calendario',
-    icon: 'calendar',
-    path: '/dashboard/calendario',
-    roles: [ROLES.EMPRESA, ROLES.ASISTENTE_TECNICO],
-  },
-  {
-    id: 'sitios-web_gr',
-    label: 'Sitios web (Genérico)',
-    icon: 'globe',
-    path: '/dashboard/sitios-web',
-    roles: [ROLES.EMPRESA, ROLES.ASISTENTE_TECNICO],
-  },
-  {
-    id: 'mensajeria',
-    label: 'Mensajería (Chat)',
-    icon: 'message-square',
-    path: '/dashboard/mensajeria',
-    roles: [ROLES.EMPRESA, ROLES.ASISTENTE_TECNICO],
-  },
-  {
-    id: 'educacion_at',
-    label: 'Contenido Educacional',
-    icon: 'book-open',
-    path: '/dashboard/educacion',
-    roles: [ROLES.EMPRESA, ROLES.ASISTENTE_TECNICO],
-  },
-  {
-    id: 'estaciones',
-    label: 'Estaciones',
-    icon: 'cloud-lightning',
-    path: '/dashboard/estaciones',
-    roles: [ROLES.EMPRESA, ROLES.ASISTENTE_TECNICO],
-  },
-  {
-    id: 'fincas',
-    label: 'Fincas',
-    icon: 'home',
-    path: '/dashboard/fincas',
-    roles: [ROLES.EMPRESA, ROLES.ASISTENTE_TECNICO],
-  },
-  {
-    id: 'estadisticas',
-    label: 'Estadísticas',
-    icon: 'bar-chart-2',
-    path: '/dashboard/estadisticas',
-    roles: [ROLES.EMPRESA, ROLES.ASISTENTE_TECNICO],
-  },
-  {
-    id: 'rentabilidad',
-    label: 'Rentabilidad',
-    icon: 'dollar-sign',
-    path: '/dashboard/rentabilidad',
-    roles: [ROLES.EMPRESA, ROLES.ASISTENTE_TECNICO],
-  },
-  {
-    id: 'pronostico',
-    label: 'Pronóstico de cosecha',
-    icon: 'trending-up',
-    path: '/dashboard/pronostico',
-    roles: [ROLES.EMPRESA, ROLES.ASISTENTE_TECNICO],
-  },
-  {
-    id: 'volumen',
-    label: 'Volumen de cosechado',
-    icon: 'database',
-    path: '/dashboard/volumen',
-    roles: [ROLES.EMPRESA, ROLES.ASISTENTE_TECNICO],
-  },
-  {
-    id: 'ubicaciones',
-    label: 'Ubicaciones',
-    icon: 'map-pin',
-    path: '/dashboard/ubicaciones',
-    roles: [ROLES.ASISTENTE_TECNICO],
-  },
-  {
-    id: 'soporte',
-    label: 'Soporte',
-    icon: 'help-circle',
-    path: '/dashboard/soporte',
-    roles: [ROLES.ASISTENTE_TECNICO],
-  },
-  {
-    id: 'at_chats',
-    label: 'Chats',
+    id: 'comunicacion',
+    label: 'Comunicación',
     icon: 'message',
-    path: '/dashboard/chats',
-    roles: [ROLES.ASISTENTE_TECNICO],
+    roles: [ROLES.EMPRESA, ROLES.ASISTENTE_TECNICO],
+    subItems: [
+      { id: 'mensajeria', label: 'Mensajería', path: '/dashboard/mensajeria' },
+      { id: 'at_chats', label: 'Chats', path: '/dashboard/chats', roles: [ROLES.ASISTENTE_TECNICO] },
+      { id: 'educacion_at', label: 'Educación', path: '/dashboard/educacion' },
+      { id: 'sitios-web_gr', label: 'Sitios web', path: '/dashboard/sitios-web' },
+    ]
+  },
+  {
+    id: 'configuracion',
+    label: 'Configuración',
+    icon: 'settings',
+    roles: [ROLES.EMPRESA, ROLES.ASISTENTE_TECNICO],
+    subItems: [
+      { id: 'perfil_gr', label: 'Perfil', path: '/dashboard/perfil' },
+      { id: 'estaciones', label: 'Estaciones IoT', path: '/dashboard/estaciones' },
+      { id: 'ubicaciones', label: 'Ubicaciones', path: '/dashboard/ubicaciones', roles: [ROLES.ASISTENTE_TECNICO] },
+      { id: 'soporte', label: 'Soporte', path: '/dashboard/soporte', roles: [ROLES.ASISTENTE_TECNICO] },
+    ]
   },
 
   // --- Opciones MENU SUPER ADMIN ---
@@ -205,80 +140,47 @@ export const MENU_OPTIONS = [
 
   // --- Opciones MENU CAFICULTOR ---
   {
-    id: 'caf_mi_finca',
-    label: 'Mi Finca',
+    id: 'caf_produccion',
+    label: 'Producción',
     icon: 'home',
-    path: '/dashboard/caficultor/mi-finca',
     roles: [ROLES.CAFICULTOR],
+    subItems: [
+      { id: 'caf_mi_finca', label: 'Mi Finca', path: '/dashboard/caficultor/mi-finca' },
+      { id: 'caf_historico', label: 'Histórico', path: '/dashboard/caficultor/historico' },
+      { id: 'caf_estadisticas', label: 'Estadísticas', path: '/dashboard/caficultor/estadisticas' },
+      { id: 'caf_almanaque', label: 'Almanaque', path: '/dashboard/caficultor/almanaque' },
+      { id: 'caf_archivos', label: 'Mis Archivos', path: '/dashboard/caficultor/archivos' },
+    ]
   },
   {
-    id: 'caf_chat',
-    label: 'Chat y mensajería',
-    icon: 'message-square',
-    path: '/dashboard/caficultor/chat',
-    roles: [ROLES.CAFICULTOR],
-  },
-  {
-    id: 'caf_perfil',
-    label: 'Perfil',
-    icon: 'user',
-    path: '/dashboard/caficultor/perfil',
-    roles: [ROLES.CAFICULTOR],
-  },
-  {
-    id: 'caf_estaciones',
-    label: 'Estaciones',
-    icon: 'cloud-lightning',
-    path: '/dashboard/caficultor/estaciones',
-    roles: [ROLES.CAFICULTOR],
-  },
-  {
-    id: 'caf_sitios_web',
-    label: 'Sitios web',
-    icon: 'globe',
-    path: '/dashboard/caficultor/sitios-web',
-    roles: [ROLES.CAFICULTOR],
-  },
-  {
-    id: 'caf_clima',
-    label: 'Estado del tiempo',
+    id: 'caf_entorno',
+    label: 'Clima & IoT',
     icon: 'cloud',
-    path: '/dashboard/caficultor/estado-tiempo',
     roles: [ROLES.CAFICULTOR],
+    subItems: [
+      { id: 'caf_clima', label: 'Estado del tiempo', path: '/dashboard/caficultor/estado-tiempo' },
+      { id: 'caf_estaciones', label: 'Estaciones IoT', path: '/dashboard/caficultor/estaciones' },
+    ]
   },
   {
-    id: 'caf_historico',
-    label: 'Histórico',
-    icon: 'calendar',
-    path: '/dashboard/caficultor/historico',
+    id: 'caf_comunicacion',
+    label: 'Comunicación',
+    icon: 'message',
     roles: [ROLES.CAFICULTOR],
+    subItems: [
+      { id: 'caf_chat', label: 'Chat y Mensajería', path: '/dashboard/caficultor/chat' },
+      { id: 'caf_comunicaciones', label: 'Avisos y Alertas', path: '/dashboard/caficultor/comunicaciones' },
+      { id: 'caf_educacion', label: 'Educación', path: '/dashboard/caficultor/educacion' },
+      { id: 'caf_sitios_web', label: 'Sitios web', path: '/dashboard/caficultor/sitios-web' },
+    ]
   },
   {
-    id: 'caf_estadisticas',
-    label: 'Estadísticas',
-    icon: 'bar-chart-2',
-    path: '/dashboard/caficultor/estadisticas',
+    id: 'caf_ajustes',
+    label: 'Ajustes',
+    icon: 'settings',
     roles: [ROLES.CAFICULTOR],
-  },
-  {
-    id: 'caf_comunicaciones',
-    label: 'Comunicaciones',
-    icon: 'bell',
-    path: '/dashboard/caficultor/comunicaciones',
-    roles: [ROLES.CAFICULTOR],
-  },
-  {
-    id: 'caf_educacion',
-    label: 'Educación',
-    icon: 'book-open',
-    path: '/dashboard/caficultor/educacion',
-    roles: [ROLES.CAFICULTOR],
-  },
-  {
-    id: 'caf_archivos',
-    label: 'Archivos',
-    icon: 'file-text',
-    path: '/dashboard/caficultor/archivos',
-    roles: [ROLES.CAFICULTOR],
+    subItems: [
+      { id: 'caf_perfil', label: 'Mi Perfil', path: '/dashboard/caficultor/perfil' },
+    ]
   },
 ];

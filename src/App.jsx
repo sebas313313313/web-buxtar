@@ -71,6 +71,7 @@ import C_Estadisticas from './pages/caficultor/Estadisticas';
 import C_Comunicaciones from './pages/caficultor/Comunicaciones';
 import C_Educacion from './pages/caficultor/Educacion';
 import C_Archivos from './pages/caficultor/Archivos';
+import C_Almanaque from './pages/caficultor/Almanaque';
 
 // Placeholder temporal (si hubiera otros)
 
@@ -194,6 +195,7 @@ function App() {
             <Route path="caficultor/comunicaciones" element={<C_Comunicaciones />} />
             <Route path="caficultor/educacion" element={<C_Educacion />} />
             <Route path="caficultor/archivos" element={<C_Archivos />} />
+            <Route path="caficultor/almanaque" element={<C_Almanaque />} />
           </Route>
         </Routes>
       </Router>

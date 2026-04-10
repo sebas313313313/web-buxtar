@@ -239,7 +239,7 @@ const MapaGIS = ({
   };
 
   return (
-    <div className="relative rounded-xl overflow-hidden border border-gray-200 shadow-sm" style={{ height }}>
+    <div className="relative z-0 rounded-xl overflow-hidden border border-gray-200 shadow-sm" style={{ height }}>
 
       {/* Toggle Satélite / Mapa estándar */}
       <div className="absolute top-3 right-3 z-[1000] flex bg-white rounded-lg shadow-md p-1 gap-1">

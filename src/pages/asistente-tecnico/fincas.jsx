@@ -6,7 +6,10 @@ const Fincas = () => {
   const [showLotesModal, setShowLotesModal] = useState(false);
   const [selectedGrupo, setSelectedGrupo] = useState(null);
   const [selectedFinca, setSelectedFinca] = useState(null);
-  const [tabLote, setTabLote]  = useState('info'); // 'info' | 'mapa'
+  const [tabLote, setTabLote]  = useState('info'); // 'info' | 'mapa' | 'plan'
+  const [planesDeManejo, setPlanesDeManejo] = useState([]);
+  const [showCrearPlanModal, setShowCrearPlanModal] = useState(false);
+  const [nuevoPlanData, setNuevoPlanData] = useState({ actividad: '', fecha: '', insumos: '' });
 
   const [gruposCaficultores] = useState([
     { id: 1, nombre: 'Grupo Norte', descripcion: 'Caficultores de la zona norte', caficultores: ['Carlos Rodríguez', 'Ana López', 'Luis Torres'] },
@@ -213,6 +216,12 @@ const Fincas = () => {
                 >
                   🗺️ Mapa GIS
                 </button>
+                <button
+                  onClick={() => { setTabLote('plan'); setSelectedLote(null); }}
+                  className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${tabLote === 'plan' ? 'border-cafe-vino-600 text-cafe-vino-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                >
+                  📋 Plan de Manejo
+                </button>
               </div>
 
               <div className="p-6">
@@ -333,12 +342,102 @@ const Fincas = () => {
                     )}
                   </div>
                 )}
+
+                {/* TAB PLAN DE MANEJO */}
+                {tabLote === 'plan' && (
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-3">
+                      <label className="text-sm font-medium text-gray-700">Seleccionar lote para Plan de Manejo:</label>
+                      <select
+                        value={selectedLote?.id || ''}
+                        onChange={(e) => {
+                          const l = lotes.find(l => l.id === parseInt(e.target.value));
+                          setSelectedLote(l || null);
+                        }}
+                        className="px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-cafe-vino-500 outline-none"
+                      >
+                        <option value="">-- Selecciona un lote --</option>
+                        {lotesFiltrados.map(l => (
+                          <option key={l.id} value={l.id}>{l.nombre}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {selectedLote ? (
+                      <div className="space-y-4">
+                        <div className="flex justify-between items-center">
+                          <h4 className="font-bold text-gray-900">Actividades asignadas a {selectedLote.nombre}</h4>
+                          <button onClick={() => setShowCrearPlanModal(true)} className="px-3 py-1.5 bg-cafe-vino-600 text-white rounded-md text-sm hover:bg-cafe-vino-700">
+                            + Crear Actividad
+                          </button>
+                        </div>
+
+                        {planesDeManejo.filter(p => p.idLote === selectedLote.id).length > 0 ? (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {planesDeManejo.filter(p => p.idLote === selectedLote.id).map(plan => (
+                              <div key={plan.id} className="bg-white p-4 border border-gray-200 rounded-lg shadow-sm">
+                                <h5 className="font-bold text-cafe-vino-800">{plan.actividad}</h5>
+                                <p className="text-sm text-gray-600 mt-1"><strong>Insumos:</strong> {plan.insumos}</p>
+                                <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-100">
+                                  <span className="text-xs text-gray-500">🗓️ Límite: {plan.fecha}</span>
+                                  <span className="px-2 py-0.5 bg-yellow-100 text-yellow-700 text-xs font-semibold rounded-full">Pendiente</span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="text-center py-8 bg-gray-50 border border-gray-200 rounded-xl">
+                            <p className="text-sm text-gray-500">Aún no has creado un plan de manejo para este lote.</p>
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-center h-40 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
+                        <p className="text-gray-400 text-sm">Selecciona un lote arriba para administrar su plan</p>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className="flex justify-end px-6 py-4 border-t border-gray-200">
                 <button onClick={() => setShowLotesModal(false)} className="px-4 py-2 border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 rounded-lg transition-colors text-sm">
                   Cerrar
                 </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL CREAR ACTIVIDAD DE PLAN */}
+      {showCrearPlanModal && selectedLote && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="fixed inset-0 bg-black bg-opacity-50" onClick={() => setShowCrearPlanModal(false)} />
+          <div className="flex items-center justify-center min-h-screen px-4">
+            <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-md p-6 z-10">
+              <h3 className="text-lg font-bold mb-4">Nueva Actividad para {selectedLote.nombre}</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Actividad a realizar</label>
+                  <input type="text" className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-cafe-vino-500 focus:border-cafe-vino-500" value={nuevoPlanData.actividad} onChange={(e) => setNuevoPlanData({ ...nuevoPlanData, actividad: e.target.value })} placeholder="Ej. Fumigación, Poda..." />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Insumos recomendados</label>
+                  <input type="text" className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-cafe-vino-500 focus:border-cafe-vino-500" value={nuevoPlanData.insumos} onChange={(e) => setNuevoPlanData({ ...nuevoPlanData, insumos: e.target.value })} placeholder="Ej. Fertilizante NPK" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Fecha Límite</label>
+                  <input type="date" className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-cafe-vino-500 focus:border-cafe-vino-500" value={nuevoPlanData.fecha} onChange={(e) => setNuevoPlanData({ ...nuevoPlanData, fecha: e.target.value })} />
+                </div>
+              </div>
+              <div className="mt-6 flex justify-end gap-3">
+                <button onClick={() => setShowCrearPlanModal(false)} className="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg">Cancelar</button>
+                <button onClick={() => {
+                  setPlanesDeManejo([...planesDeManejo, { id: Date.now(), idLote: selectedLote.id, actividad: nuevoPlanData.actividad, insumos: nuevoPlanData.insumos, fecha: nuevoPlanData.fecha }]);
+                  setShowCrearPlanModal(false);
+                  setNuevoPlanData({ actividad: '', fecha: '', insumos: '' });
+                }} className="px-4 py-2 text-sm bg-cafe-vino-600 text-white rounded-lg hover:bg-cafe-vino-700">Guardar Actividad</button>
               </div>
             </div>
           </div>

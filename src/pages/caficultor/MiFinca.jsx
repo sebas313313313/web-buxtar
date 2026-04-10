@@ -134,6 +134,20 @@ const C_MiFinca = () => {
 
   const lotesActuales = getLotesParaFinca(fincaSeleccionada);
   const tieneLotes    = lotesActuales.length > 0;
+  const lotesEnRiesgo = lotesActuales.filter(l => l.nivel === 'alto');
+  
+  // Plan de manejo mock
+  const [loteSeleccionadoPlan, setLoteSeleccionadoPlan] = useState(null);
+  const [planDeManejo, setPlanDeManejo] = useState([
+    { id: 1, idLote: 1, actividad: 'Fumigación Roya', fecha: '2026-04-15', insumos: 'Fungicida X', estado: 'Pendiente' },
+    { id: 2, idLote: 2, actividad: 'Poda sanitaria', fecha: '2026-04-18', insumos: 'Tijeras desinfectadas', estado: 'Pendiente' },
+    { id: 3, idLote: 3, actividad: 'Trampas Broca', fecha: '2026-04-12', insumos: 'Alcohol, envases', estado: 'Completada' },
+  ]);
+
+  const toggleTareaCompletada = (tareaId) => {
+    setPlanDeManejo(prev => prev.map(t => t.id === tareaId ? { ...t, estado: t.estado === 'Pendiente' ? 'Completada' : 'Pendiente' } : t));
+    setAlertModal({ isOpen: true, type: 'success', title: 'Plan actualizado', message: 'Has marcado la actividad como completada.' });
+  };
 
   const nivelLabel = { bajo: 'Buen estado', medio: 'Atención media', alto: 'Alerta alta' };
   const nivelColor = { bajo: 'bg-green-100 text-green-700', medio: 'bg-amber-100 text-amber-700', alto: 'bg-red-100 text-red-700' };
@@ -148,6 +162,23 @@ const C_MiFinca = () => {
           Agregar una finca
         </Button>
       </PageHeader>
+
+      {/* COMPONENTE 1: ALERTA INTELIGENTE */}
+      {lotesEnRiesgo.length > 0 && (
+        <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-md shadow-sm flex items-start animate-pulse">
+          <div className="flex-shrink-0 mt-0.5 text-red-500">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+          </div>
+          <div className="ml-3">
+            <h3 className="text-sm font-bold text-red-800">¡Alerta Fitosanitaria!</h3>
+            <p className="text-sm text-red-700 mt-1">
+              {lotesEnRiesgo.length === 1 
+                ? `Tu ${lotesEnRiesgo[0].nombre} tiene nivel de riesgo alto por plagas o enfermedades. Agenda una visita técnica lo más pronto posible.` 
+                : `${lotesEnRiesgo.length} lotes tienen nivel de riesgo alto. Agenda una visita técnica lo más pronto posible.`}
+            </p>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Panel de Fincas */}
@@ -199,28 +230,63 @@ const C_MiFinca = () => {
           )}
         </Card>
 
-        {/* Panel Productividad */}
-        <Card className="shadow-sm border border-gray-100">
-          <h3 className="text-lg font-bold text-gray-900 mb-1">Productividad Actual</h3>
-          <p className="text-sm text-gray-500 mb-8">Progreso de tareas y recomendaciones del Extensionista</p>
-          <div className="relative w-48 h-48 mx-auto mb-6">
-            <Doughnut data={data} options={options} />
-            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <span className="text-4xl font-black text-gray-800 tracking-tight">{porcentaje}%</span>
-              <span className="text-xs text-gray-500 font-medium uppercase mt-1">Completado</span>
+        {/* Panel Lateral: Benchmark y Productividad */}
+        <div className="flex flex-col gap-6">
+          {/* COMPONENTE 3: BENCHMARK DE PRODUCTIVIDAD */}
+          <Card className="shadow-sm border border-gray-100 bg-gradient-to-br from-cafe-vino-700 to-cafe-vino-900 text-white">
+            <h3 className="text-lg font-bold mb-1">Rendimiento (Benchmark)</h3>
+            <p className="text-sm text-cafe-vino-200 mb-6">Comparativa frente al promedio de tu Grupo</p>
+            
+            <div className="space-y-4">
+              <div>
+                <div className="flex justify-between text-sm mb-1">
+                  <span className="font-semibold">Tu Finca</span>
+                  <span className="font-bold">3.2 t/ha</span>
+                </div>
+                <div className="w-full bg-cafe-vino-900 rounded-full h-2">
+                  <div className="bg-green-400 h-2 rounded-full" style={{ width: '65%' }}></div>
+                </div>
+              </div>
+              
+              <div>
+                <div className="flex justify-between text-sm mb-1">
+                  <span className="font-medium text-cafe-vino-200">Promedio del Grupo</span>
+                  <span className="font-bold text-cafe-vino-100">4.1 t/ha</span>
+                </div>
+                <div className="w-full bg-cafe-vino-900 rounded-full h-2">
+                  <div className="bg-cafe-vino-400 h-2 rounded-full" style={{ width: '85%' }}></div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4 border-t border-gray-100 pt-6">
-            <div className="text-center">
-              <p className="text-2xl font-bold text-emerald-600">{tareasCompletadas}</p>
-              <p className="text-xs text-gray-500 uppercase tracking-wide font-medium">Hechas</p>
+            
+            <div className="mt-5 p-3 bg-white/10 rounded-lg backdrop-blur-sm border border-white/10">
+              <p className="text-xs text-cafe-vino-100">
+                <span className="font-bold text-yellow-300">¡Hay margen para mejorar!</span> Consulta tu Plan de Manejo para alcanzar la meta del grupo.
+              </p>
             </div>
-            <div className="text-center border-l border-gray-100">
-              <p className="text-2xl font-bold text-gray-400">{tareasPendientes}</p>
-              <p className="text-xs text-gray-500 uppercase tracking-wide font-medium">Pendientes</p>
+          </Card>
+
+          <Card className="shadow-sm border border-gray-100">
+            <h3 className="text-lg font-bold text-gray-900 mb-1">Productividad Actual</h3>
+            <p className="text-sm text-gray-500 mb-6">Progreso de tareas y recomendaciones del Extensionista</p>
+            <div className="relative w-40 h-40 mx-auto mb-4">
+              <Doughnut data={data} options={options} />
+              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                <span className="text-3xl font-black text-gray-800 tracking-tight">{porcentaje}%</span>
+              </div>
             </div>
-          </div>
-        </Card>
+            <div className="grid grid-cols-2 gap-4 border-t border-gray-100 pt-4">
+              <div className="text-center">
+                <p className="text-xl font-bold text-emerald-600">{tareasCompletadas}</p>
+                <p className="text-[10px] text-gray-500 uppercase tracking-wide font-medium">Hechas</p>
+              </div>
+              <div className="text-center border-l border-gray-100">
+                <p className="text-xl font-bold text-gray-400">{tareasPendientes}</p>
+                <p className="text-[10px] text-gray-500 uppercase tracking-wide font-medium">Pendientes</p>
+              </div>
+            </div>
+          </Card>
+        </div>
       </div>
 
       {/* ── SECCIÓN MAPA GIS (solo lectura) ── */}
@@ -297,9 +363,58 @@ const C_MiFinca = () => {
                     geojson: l.poligono,
                     color: l.nivel === 'alto' ? '#dc2626' : l.nivel === 'medio' ? '#d97706' : '#059669',
                     caficultores: null,
-                    municipios: `${l.areaHa} Ha · ${nivelLabel[l.nivel]}`,
+                    municipios: `${l.areaHa} Ha · Click para ver Plan de Manejo`,
                   }))}
                 />
+
+                {/* COMPONENTE 2: PLAN DE MANEJO POR LOTE */}
+                <div className="mt-8 pt-8 border-t border-gray-100">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-bold text-gray-900">Plan de Manejo y Actividades</h3>
+                    <select 
+                      className="text-sm border-gray-200 rounded-md focus:ring-brand-cafe focus:border-brand-cafe"
+                      value={loteSeleccionadoPlan || ''}
+                      onChange={(e) => setLoteSeleccionadoPlan(Number(e.target.value) || null)}
+                    >
+                      <option value="">Selecciona un lote...</option>
+                      {lotesActuales.map(l => (
+                        <option key={l.id} value={l.id}>{l.nombre}</option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                  {loteSeleccionadoPlan ? (
+                    <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                      {planDeManejo.filter(p => p.idLote === loteSeleccionadoPlan).length > 0 ? (
+                        <ul className="space-y-3">
+                          {planDeManejo.filter(p => p.idLote === loteSeleccionadoPlan).map(plan => (
+                            <li key={plan.id} className="flex flex-col sm:flex-row sm:items-center justify-between bg-white p-3 rounded-lg border border-gray-200">
+                              <div className="flex items-center gap-3">
+                                <button 
+                                  onClick={() => toggleTareaCompletada(plan.id)}
+                                  className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${plan.estado === 'Completada' ? 'bg-green-500 border-green-500' : 'border-gray-300 hover:border-green-500'}`}
+                                >
+                                  {plan.estado === 'Completada' && <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                                </button>
+                                <div>
+                                  <p className={`font-semibold text-sm ${plan.estado === 'Completada' ? 'text-gray-400 line-through' : 'text-gray-800'}`}>{plan.actividad}</p>
+                                  <p className="text-xs text-gray-500">Insumos: {plan.insumos} • Límite: {plan.fecha}</p>
+                                </div>
+                              </div>
+                              <span className={`mt-2 sm:mt-0 px-2 py-1 text-xs font-medium rounded-full w-max ${plan.estado === 'Completada' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
+                                {plan.estado}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className="text-sm text-gray-500 text-center py-4">No hay actividades planificadas para este lote por ahora.</p>
+                      )}
+                    </div>
+                  ) : (
+                     <p className="text-sm text-gray-500 italic px-2">👆 Selecciona un lote en la lista desplegable de arriba para ver las actividades programadas por tu asistente técnico para dicho terreno.</p>
+                  )}
+                </div>
               </>
             )}
           </div>
