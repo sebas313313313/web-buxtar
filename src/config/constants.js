@@ -64,6 +64,15 @@ export const MENU_OPTIONS = [
     ]
   },
   {
+    id: 'exportacion',
+    label: 'Exportación',
+    icon: 'globe',
+    roles: [ROLES.EMPRESA],
+    subItems: [
+      { id: 'evaluacion_exportacion', label: 'Evaluación de Exportación', path: '/dashboard/evaluacion-exportacion' },
+    ]
+  },
+  {
     id: 'configuracion',
     label: 'Configuración',
     icon: 'settings',

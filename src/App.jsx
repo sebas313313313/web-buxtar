@@ -140,6 +140,8 @@ const RoleSwitch = ({ empresa: EmpresaComp, at: AtComp }) => {
   return user?.role === ROLES.EMPRESA ? <EmpresaComp /> : <AtComp />;
 };
 
+import EvaluacionExportacion from './pages/empresa/EvaluacionExportacion'
+
 function App() {
   return (
     <AuthProvider>
@@ -167,6 +169,7 @@ function App() {
             <Route path="rentabilidad" element={<RoleSwitch empresa={E_Rentabilidad} at={Rentabilidad} />} />
             <Route path="pronostico" element={<RoleSwitch empresa={E_PronosticoDeCosecha} at={Pronostico} />} />
             <Route path="volumen" element={<RoleSwitch empresa={E_VolumenDeCosechado} at={Volumen} />} />
+            <Route path="evaluacion-exportacion" element={<EvaluacionExportacion />} />
             <Route path="ubicaciones" element={<Ubicaciones />} />
             <Route path="soporte" element={<Soporte />} />
             <Route path="chats" element={<Chats />} />

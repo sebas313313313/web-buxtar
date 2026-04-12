@@ -8,6 +8,7 @@ import Zonas from '../pages/zonas';
 import Extensionistas from '../pages/extensionistas';
 import Caficultores from '../pages/caficultores';
 import Calendario from '../pages/calendario';
+import EvaluacionExportacion from '../pages/empresa/EvaluacionExportacion';
 
 // Componente de prueba directo para SitiosWeb
 const SitiosWeb = () => {
@@ -118,6 +119,7 @@ const Volumen = () => (
   </div>
 );
 
+
 export const routes = [
   {
     path: '/login',
@@ -186,6 +188,10 @@ export const routes = [
       {
         path: 'pronostico',
         element: <Pronostico />,
+      },
+      {
+        path: 'evaluacion-exportacion',
+        element: <EvaluacionExportacion />,
       },
       {
         path: 'volumen',
