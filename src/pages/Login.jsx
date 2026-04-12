@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Input } from '../components';
+import { Button, Input, ForgotPasswordModal } from '../components';
 import { useAuthHook } from '../hooks/useAuth';
 import AuthLayout from '../layouts/AuthLayout';
 import logo from '../assets/icons/logo-solo.png';
@@ -8,6 +8,7 @@ import logo from '../assets/icons/logo-solo.png';
 const Login = () => {
   const navigate = useNavigate();
   const { login, isLoading, isAuthenticated, error, clearError } = useAuthHook();
+  const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -118,9 +119,13 @@ const Login = () => {
           </div>
 
           <div className="text-sm">
-            <a href="#" className="font-medium text-cafe-vino-600 hover:text-cafe-vino-500">
+            <button
+              type="button"
+              onClick={() => setIsForgotModalOpen(true)}
+              className="font-medium text-cafe-vino-600 hover:text-cafe-vino-500"
+            >
               ¿Olvidaste tu contraseña?
-            </a>
+            </button>
           </div>
         </div>
 
@@ -136,6 +141,11 @@ const Login = () => {
           </Button>
         </div>
       </form>
+
+      <ForgotPasswordModal
+        isOpen={isForgotModalOpen}
+        onClose={() => setIsForgotModalOpen(false)}
+      />
     </AuthLayout>
   );
 };
