@@ -136,28 +136,6 @@ const Login = () => {
           </Button>
         </div>
       </form>
-
-      {/* Demo credentials */}
-      <div className="mt-6">
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300" />
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white text-gray-500">Credenciales de demo</span>
-          </div>
-        </div>
-
-        <div className="mt-4 text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
-          <p className="font-medium mb-2">Selecciona un rol para probar (cualquier contraseña):</p>
-          <ul className="space-y-1 mb-2">
-            <li><code className="bg-white px-1 py-0.5 rounded">superadmin@demo.com</code> <span className="text-gray-500">(Super Admin)</span></li>
-            <li><code className="bg-white px-1 py-0.5 rounded">empresa@demo.com</code> <span className="text-gray-500">(Empresa)</span></li>
-            <li><code className="bg-white px-1 py-0.5 rounded">asistente@demo.com</code> <span className="text-gray-500">(Asist. Técnico)</span></li>
-            <li><code className="bg-white px-1 py-0.5 rounded">caficultor@demo.com</code> <span className="text-gray-500">(Caficultor)</span></li>
-          </ul>
-        </div>
-      </div>
     </AuthLayout>
   );
 };
